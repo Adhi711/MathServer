@@ -33,7 +33,7 @@ Publish the website in the given URL.
 
 ## PROGRAM :
 
-# html
+# Power.html
 
 ```
 <html>
@@ -102,7 +102,40 @@ Publish the website in the given URL.
 
 </html>
 ```
+# Views.py
+```
+from django.shortcuts import render
 
+def powerlamp(request):
+    context={}
+    context['Power'] = ""
+    context['I'] = ""
+    context['R'] = ""
+    if request.method == 'POST':
+        print("POST method is used")
+        I = request.POST.get('Intensity','')
+        R = request.POST.get('Resistence','')
+        print('request=',request)
+        print('Intensity=',I)
+        print('Resistence=',R)
+        Power = int(I) * int(I) * int(R)
+        context['Power'] = Power
+        context['I'] = I
+        context['R'] = R
+        print('Power=',Power)
+    return render(request,'mathapp/power.html',context)
+```
+
+# Urls.py
+```
+from django.contrib import admin
+from django.urls import path
+from mathapp import views
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',views.powerlamp,name="powerlamp"),]
+
+```
 ## SERVER SIDE PROCESSING:
 
 ![alt text](image.png)
